@@ -4,22 +4,25 @@
   import Player from "./Player.svelte";
   import { onMount } from "svelte";
 
-  let players: BedwarsPlayer[] = [];
-  $: players = players.sort((a, b) => b.Level - a.Level); // todo customizable sorting
+  let sortingMethod = "Level"; // todo customizable sorting
 
-  let layout = [ // todo customizable layout
+  let players: BedwarsPlayer[] = [];
+  $: players = players.sort((a, b) => b[sortingMethod] - a[sortingMethod]); // todo customizable sorting
+
+  let layout = [
+    // todo customizable layout
     "Level",
     "Name",
     "FKDR",
     "Finals",
-    "Wins",
-    "Losses",
-    "Beds",
-    "Bl",
     "WLR",
+    "Wins",
+    "BBLR",
+    "Beds",
   ];
 
-  let customWidths = { // todo customizable widths
+  let customWidths = {
+    // todo customizable widths
     Name: "2fr",
     Bl: ".5fr",
   };
@@ -29,18 +32,17 @@
     .join(" ");
 
   onMount(() => {
-    EventsOn("addPlayer", (data: BedwarsPlayer) => {
-      console.log(data);
-      players = [...players, data];
-    });
+    EventsOn(
+      "addPlayer",
+      (data: BedwarsPlayer) => (players = [...players, data])
+    );
 
     EventsOn("removePlayer", (data: BedwarsPlayer) => {
+      console.log("removePlayer", data.Name);
       players = players.filter((player) => player.Name !== data.Name);
     });
 
-    EventsOn("nuke", () => {
-      players = [];
-    });
+    EventsOn("nuke", () => (players = []));
   });
 </script>
 
@@ -50,7 +52,7 @@
 >
   <div class="header">
     {#each layout as option (option)}
-      <div class="headerItem">{option}</div>
+      <div class="headerItem font-medium">{option}</div>
     {/each}
   </div>
   {#each players as player (player.Name)}

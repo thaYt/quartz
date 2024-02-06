@@ -20,14 +20,23 @@ func NewApp() *App {
 	return &App{}
 }
 
+var (
+	Events = make(map[string]func(...any))
+)
+
+func sendPlayer(data ...any) {
+	name := data[0].(string)
+	runtime.LogDebug(WailsApp.Ctx, "SendStats: "+name)
+	Emit("addPlayer", api.GetBWStats(name, api.Cubelify))
+}
+
 // NewApp creates a new App application struct
 func (a *App) Startup(ctx context.Context) {
 	a.Ctx = ctx
-	runtime.EventsOn(ctx, "SendPlayer", func(optionalData ...interface{}) {
-		name := optionalData[0].(string)
-		runtime.LogDebug(ctx, "SendStats: "+name)
-		Emit("addPlayer", api.GetBWStats(name, api.Cubelify))
-	})
+	Events["SendPlayer"] = sendPlayer
+	for v, f := range Events {
+		On(v, f)
+	}
 }
 
 func (a *App) GetVersion() string {
@@ -36,4 +45,8 @@ func (a *App) GetVersion() string {
 
 func Emit(s string, opts ...any) {
 	runtime.EventsEmit(WailsApp.Ctx, s, opts...)
+}
+
+func On(s string, f func(...any)) {
+	runtime.EventsOn(WailsApp.Ctx, s, f)
 }

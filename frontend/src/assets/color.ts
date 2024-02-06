@@ -1,3 +1,5 @@
+// todo: RE-do all this shit and make it customizable
+
 const COLOR_BLACK = "#000000";
 const COLOR_DARK_BLUE = "#0000AA";
 const COLOR_DARK_GREEN = "#00AA00";
@@ -147,7 +149,6 @@ function getRankColor(rank) {
 }
 
 export function getColor(stat: string, data: any): string {
-  console.log(stat, data)
   switch (stat) {
     case "Name":
       return getRankColor(data);

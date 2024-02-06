@@ -30,9 +30,9 @@
   <div class="navbar-left">
     <img src={quartz} width="30" height="30" alt="quartz" />
 
-    <div class="navbar-title">quartz</div>
+    <div class="navbar-title font-bold">quartz</div>
 
-    <div class="navbar-version" />
+    <div class="navbar-version font-semibold" />
   </div>
   <!-- add close, minimize buttons -->
   <div class="navbar-buttons">

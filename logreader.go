@@ -46,7 +46,7 @@ func handleLine(newcontent string) {
 }
 
 func startLogReader(ctx context.Context) {
-	Path := getMinecraftDir()
+	Path := getMinecraftDir() // todo: make this configurable
 	oldStat, _ := os.Stat(Path)
 	oldSize := oldStat.Size()
 	b, _ := os.ReadFile(Path)
@@ -134,4 +134,29 @@ func getMinecraftDir() string {
 	}
 
 	return path
+}
+
+func getCustomDir() string {
+	return Config.LogDir
+}
+
+var (
+	directories = []string{getMinecraftDir(), getLunarDir(), getCustomDir()}
+)
+
+func iterDirectories() string {
+	// iterate through directories and return the latest updated file
+	var latest string
+	var latestTime time.Time
+	for _, dir := range directories {
+		file, err := os.Stat(dir)
+		if err != nil {
+			continue
+		}
+		if file.ModTime().After(latestTime) {
+			latestTime = file.ModTime()
+			latest = file.Name()
+		}
+	}
+	return latest
 }

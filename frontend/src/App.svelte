@@ -6,9 +6,9 @@
 
   onMount(() => {
     console.log("App mounted");
-    $state = 0;
+    // $state = 0;
   });
-  
+  /*
   import { writable } from "svelte/store";
 
   enum State {
@@ -26,7 +26,7 @@
     subscribe: stateStore.subscribe,
     update,
     reset,
-  };
+  };*/
 </script>
 
 <main>
@@ -36,11 +36,11 @@
 
   <hr />
 
-  {#if $state === State.Playerlist}
-    <Playerlist />
-  {:else if $state === State.Settings}
-    <Settings />
-  {/if}
+  <!-- {#if $state === State.Playerlist} -->
+  <Playerlist />
+  <!-- {:else if $state === State.Settings} -->
+  <!-- <Settings /> -->
+  <!-- {/if} -->
 </main>
 
 <style lang="scss">

@@ -22,7 +22,7 @@
   svg {
     font-variation-settings:
       "FILL" 0,
-      "wght" 300,
+      "wght" 600,
       "GRAD" 0,
       "opsz" 40;
     fill: white;
